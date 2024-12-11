@@ -2,24 +2,20 @@ import { NextFunction, Request, Response } from "express";
 import { UserService } from "./user.service";
 import sendResponse from "../../ulits/sendResponse";
 import httpStatus from "http-status";
+import catchAsync from "../../ulits/catchAsync";
 
-const createStudent = async (req: Request, res: Response, next:NextFunction) => {
+const createStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { password, student: studentData } = req.body;
 
     console.log('Password:', password);
-    console.log('Student Data:', studentData); // Check the structure
 
-    const result = await UserService.createStudentIntoDB( password,studentData);
-    // res.status(200).json({
-    //   success: true,
-    //   message: "Student is create successfully",
-    //   data: result,
-    // });
+    const result = await UserService.createStudentIntoDB(password, studentData);
+    console.log('Student Data:', result); // Check the structure
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
-      success:true,
+      success: true,
       message: "Student is create successfully",
       data: result
     })
@@ -30,7 +26,22 @@ const createStudent = async (req: Request, res: Response, next:NextFunction) => 
 };
 
 
+const createFaculty = catchAsync(async (req, res) => {
+  const { password, faculty: facultyData } = req.body;
+
+  const result = await UserService.createFacultyIntoDB(password, facultyData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculty is created succesfully',
+    data: result,
+  });
+});
+
+
 
 export const UserController = {
-  createStudent
+  createStudent,
+  createFaculty
 }

@@ -148,6 +148,10 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
         type: Schema.Types.ObjectId,
         ref: 'AcademicSemester',
       },
+      academicDepartment: {
+        type: Schema.Types.ObjectId,
+        ref: 'AcademicDepartment',
+      },
       isDeleted: {
         type: Boolean,
         default: false,
@@ -162,7 +166,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
   
   // virtual
   studentSchema.virtual('fullName').get(function () {
-    return this.name.firstName + this.name.middleName + this.name.lastName;
+    return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
   });
   
   // Query Middleware
@@ -173,7 +177,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
 
 
 studentSchema.virtual('fullName').get(function () {
-    return this.name.firstName + this.name.middleName + this.name.lastName
+    return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName
 })
 
 

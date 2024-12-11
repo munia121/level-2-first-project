@@ -9,7 +9,7 @@ import catchAsync from "../../ulits/catchAsync";
 
 
 const getAllStudents = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentFromDB();
+  const result = await StudentServices.getAllStudentFromDB(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -36,7 +36,20 @@ const deleteStudent = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is deleted succesfully',
+    message: 'Student is deleted successfully',
+    data: result,
+  });
+});
+
+
+const updateStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const {student} = req.body
+  const result = await StudentServices.updateStudentIntoDB(studentId, student);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student is deleted successfully',
     data: result,
   });
 });
@@ -48,6 +61,7 @@ const deleteStudent = catchAsync(async (req, res) => {
 export const StudentController = {
   getAllStudents,
   getSingleStudents,
-  deleteStudent
+  deleteStudent,
+  updateStudent
 
 };

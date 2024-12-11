@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import { UserController } from "./user.controller";
-import { AnyZodObject } from "zod";
 import { createStudentValidationSchema } from "../student/student.validation";
 import validateRequest from "../../middlwares/validateRequest";
+import { createFacultyValidationSchema } from "../Faculty/vaculty.validation";
 
 const router = express.Router();
 
@@ -14,6 +14,10 @@ const router = express.Router();
 router.post("/create-student",
     validateRequest(createStudentValidationSchema),
     UserController.createStudent
+);
+router.post("/create-faculty",
+    validateRequest(createFacultyValidationSchema),
+    UserController.createFaculty
 );
 
 
